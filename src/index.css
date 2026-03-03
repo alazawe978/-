@@ -7,8 +7,10 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
-  @apply bg-zinc-50 text-zinc-900 font-sans antialiased;
+  @apply bg-zinc-50 text-zinc-900 font-sans antialiased transition-colors duration-300 dark:bg-zinc-950 dark:text-zinc-100;
 }
 
 [dir="rtl"] {
@@ -16,17 +18,17 @@ body {
 }
 
 .glass {
-  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm;
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm dark:bg-zinc-900/80 dark:border-zinc-800/50;
 }
 
 .btn-primary {
-  @apply bg-zinc-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-zinc-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply bg-zinc-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-zinc-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200;
 }
 
 .btn-secondary {
-  @apply bg-white text-zinc-900 border border-zinc-200 px-4 py-2 rounded-lg font-medium hover:bg-zinc-50 transition-colors;
+  @apply bg-white text-zinc-900 border border-zinc-200 px-4 py-2 rounded-lg font-medium hover:bg-zinc-50 transition-colors dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800;
 }
 
 .input-field {
-  @apply w-full px-3 py-2 bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-900 transition-all;
+  @apply w-full px-3 py-2 bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-900 transition-all dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-100 dark:focus:ring-zinc-100/10 dark:focus:border-zinc-100;
 }

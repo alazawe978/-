@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Gavel, ShoppingCart, MessageCircle, X, Image as ImageIcon, Loader2, ArrowRight, Globe, DollarSign, Coins, ChevronLeft, ChevronRight, Trash2, LogIn, LogOut, Settings, ShieldCheck, LayoutDashboard, Edit3, Save, Search, Filter, Ship } from 'lucide-react';
+import { Plus, Gavel, ShoppingCart, MessageCircle, X, Image as ImageIcon, Loader2, ArrowRight, Globe, DollarSign, Coins, ChevronLeft, ChevronRight, Trash2, LogIn, LogOut, Settings, ShieldCheck, LayoutDashboard, Edit3, Save, Search, Filter, Ship, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -63,6 +63,8 @@ const translations = {
     totalBids: "إجمالي المزايدات",
     actions: "الإجراءات",
     backToPublic: "العودة للمتجر",
+    lightMode: "الوضع الفاتح",
+    darkMode: "الوضع الليلي",
     managePosts: "إدارة المنشورات",
     cancel: "إلغاء",
     confirm: "تأكيد",
@@ -106,71 +108,71 @@ const AdminDashboard = ({
           { label: t.soldItems, value: stats.sold, icon: ShoppingCart, color: "amber" },
           { label: t.totalBids, value: stats.totalBids, icon: Gavel, color: "indigo" }
         ].map((stat, i) => (
-          <div key={i} className="bg-white p-8 rounded-[2.5rem] border border-zinc-100 shadow-sm hover:shadow-xl transition-all group">
+          <div key={i} className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-xl transition-all group">
             <div className={cn(
               "w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform",
-              stat.color === "zinc" && "bg-zinc-900 text-white",
-              stat.color === "emerald" && "bg-emerald-50 text-emerald-600",
-              stat.color === "amber" && "bg-amber-50 text-amber-600",
-              stat.color === "indigo" && "bg-indigo-50 text-indigo-600"
+              stat.color === "zinc" && "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900",
+              stat.color === "emerald" && "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400",
+              stat.color === "amber" && "bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400",
+              stat.color === "indigo" && "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400"
             )}>
               <stat.icon className="w-6 h-6" />
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-1">{stat.label}</p>
-            <p className="text-4xl font-black text-zinc-900">{stat.value}</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500 mb-1">{stat.label}</p>
+            <p className="text-4xl font-black text-zinc-900 dark:text-zinc-100">{stat.value}</p>
           </div>
         ))}
       </div>
 
       {/* Items Table */}
-      <div className="bg-white rounded-[3rem] border border-zinc-100 shadow-sm overflow-hidden">
-        <div className="p-10 border-b border-zinc-50 flex items-center justify-between">
-          <h2 className="text-2xl font-black text-zinc-900">{t.managePosts}</h2>
-          <div className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+      <div className="bg-white dark:bg-zinc-900 rounded-[3rem] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden">
+        <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex items-center justify-between">
+          <h2 className="text-2xl font-black text-zinc-900 dark:text-zinc-100">{t.managePosts}</h2>
+          <div className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
             عرض {startIndex + 1}-{Math.min(startIndex + itemsPerPage, items.length)} من {items.length}
           </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-right">
             <thead>
-              <tr className="bg-zinc-50/50">
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{t.itemTitle}</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{t.startingPrice}</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{t.currentBid}</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">الحالة</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{t.actions}</th>
+              <tr className="bg-zinc-50/50 dark:bg-zinc-800/50">
+                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500">{t.itemTitle}</th>
+                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500">{t.startingPrice}</th>
+                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500">{t.currentBid}</th>
+                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500">الحالة</th>
+                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500">{t.actions}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-50">
+            <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
               {currentItems.map((item) => (
-                <tr key={item.id} className="hover:bg-zinc-50/50 transition-colors group">
+                <tr key={item.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-800/50 transition-colors group">
                   <td className="px-10 py-8">
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl overflow-hidden bg-zinc-100 flex-shrink-0">
+                      <div className="w-16 h-16 rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex-shrink-0">
                         {item.images && item.images[0] ? (
                           <img src={item.images[0]} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-zinc-300">
+                          <div className="w-full h-full flex items-center justify-center text-zinc-300 dark:text-zinc-700">
                             <ImageIcon className="w-6 h-6" />
                           </div>
                         )}
                       </div>
                       <div className="max-w-[200px]">
-                        <p className="font-black text-zinc-900 truncate">{item.title}</p>
-                        <p className="text-xs text-zinc-400 truncate">{item.description}</p>
+                        <p className="font-black text-zinc-900 dark:text-zinc-100 truncate">{item.title}</p>
+                        <p className="text-xs text-zinc-400 dark:text-zinc-500 truncate">{item.description}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-10 py-8 font-black text-zinc-900">
+                  <td className="px-10 py-8 font-black text-zinc-900 dark:text-zinc-100">
                     {item.starting_price.toLocaleString()} {t.iqd}
                   </td>
-                  <td className="px-10 py-8 font-black text-emerald-600">
+                  <td className="px-10 py-8 font-black text-emerald-600 dark:text-emerald-400">
                     {item.current_bid > 0 ? `${item.current_bid.toLocaleString()} ${t.iqd}` : '-'}
                   </td>
                   <td className="px-10 py-8">
                     <span className={cn(
                       "px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest",
-                      item.status === 'active' ? "bg-emerald-50 text-emerald-600" : "bg-zinc-100 text-zinc-400"
+                      item.status === 'active' ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400" : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500"
                     )}>
                       {item.status === 'active' ? t.active : t.sold}
                     </span>
@@ -179,21 +181,21 @@ const AdminDashboard = ({
                     <div className="flex items-center gap-2">
                       <button 
                         onClick={() => onViewDetails(item.id)}
-                        className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all"
+                        className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center hover:bg-zinc-900 dark:hover:bg-zinc-100 hover:text-white dark:hover:text-zinc-900 transition-all"
                         title="عرض"
                       >
                         <ArrowRight className="w-4 h-4 rotate-180" />
                       </button>
                       <button 
                         onClick={() => onEdit(item)}
-                        className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all"
+                        className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center hover:bg-zinc-900 dark:hover:bg-zinc-100 hover:text-white dark:hover:text-zinc-900 transition-all"
                         title={t.editItem}
                       >
                         <Edit3 className="w-4 h-4" />
                       </button>
                       <button 
                         onClick={() => onDelete(item.id)}
-                        className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-all"
+                        className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-all"
                         title={t.deleteItem}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -208,13 +210,13 @@ const AdminDashboard = ({
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="p-8 bg-zinc-50/50 border-t border-zinc-100 flex items-center justify-center gap-4">
+          <div className="p-8 bg-zinc-50/50 dark:bg-zinc-800/50 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-center gap-4">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="w-12 h-12 rounded-2xl bg-white border border-zinc-100 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:border-zinc-900 transition-all shadow-sm"
+              className="w-12 h-12 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:border-zinc-900 dark:hover:border-zinc-100 transition-all shadow-sm"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-5 h-5 dark:text-zinc-400" />
             </button>
             
             <div className="flex items-center gap-2">
@@ -225,8 +227,8 @@ const AdminDashboard = ({
                   className={cn(
                     "w-12 h-12 rounded-2xl font-black text-sm transition-all",
                     currentPage === page 
-                      ? "bg-zinc-900 text-white shadow-xl shadow-zinc-200" 
-                      : "bg-white border border-zinc-100 text-zinc-400 hover:border-zinc-900 hover:text-zinc-900"
+                      ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-xl shadow-zinc-200 dark:shadow-none" 
+                      : "bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400 hover:border-zinc-900 dark:hover:border-zinc-100 hover:text-zinc-900 dark:hover:text-zinc-100"
                   )}
                 >
                   {page}
@@ -237,9 +239,9 @@ const AdminDashboard = ({
             <button
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="w-12 h-12 rounded-2xl bg-white border border-zinc-100 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:border-zinc-900 transition-all shadow-sm"
+              className="w-12 h-12 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:border-zinc-900 dark:hover:border-zinc-100 transition-all shadow-sm"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-5 h-5 dark:text-zinc-400" />
             </button>
           </div>
         )}
@@ -270,24 +272,24 @@ const DeleteConfirmModal = ({
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-        className="relative bg-white rounded-[3rem] p-10 max-w-md w-full shadow-2xl border border-zinc-100 text-center"
+        className="relative bg-white dark:bg-zinc-900 rounded-[3rem] p-10 max-w-md w-full shadow-2xl border border-zinc-100 dark:border-zinc-800 text-center"
       >
-        <div className="w-20 h-20 bg-red-50 text-red-600 rounded-3xl flex items-center justify-center mx-auto mb-8">
+        <div className="w-20 h-20 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-3xl flex items-center justify-center mx-auto mb-8">
           <Trash2 className="w-10 h-10" />
         </div>
-        <h2 className="text-2xl font-black text-zinc-900 mb-4">{t.confirmDelete}</h2>
-        <p className="text-zinc-400 font-medium mb-10">هذا الإجراء لا يمكن التراجع عنه وسيتم حذف كافة البيانات المتعلقة بهذه القطعة.</p>
+        <h2 className="text-2xl font-black text-zinc-900 dark:text-zinc-100 mb-4">{t.confirmDelete}</h2>
+        <p className="text-zinc-400 dark:text-zinc-500 font-medium mb-10">هذا الإجراء لا يمكن التراجع عنه وسيتم حذف كافة البيانات المتعلقة بهذه القطعة.</p>
         
         <div className="flex gap-4">
           <button
             onClick={onCancel}
-            className="flex-1 py-4 rounded-2xl bg-zinc-100 text-zinc-900 font-black hover:bg-zinc-200 transition-all"
+            className="flex-1 py-4 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-black hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all"
           >
             {t.cancel}
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 py-4 rounded-2xl bg-red-600 text-white font-black hover:bg-red-700 transition-all shadow-xl shadow-red-200"
+            className="flex-1 py-4 rounded-2xl bg-red-600 text-white font-black hover:bg-red-700 transition-all shadow-xl shadow-red-200 dark:shadow-none"
           >
             {t.confirm}
           </button>
@@ -299,6 +301,12 @@ const DeleteConfirmModal = ({
 
 export default function App() {
   const [items, setItems] = useState<Item[]>([]);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
+    }
+    return 'light';
+  });
   const [selectedItem, setSelectedItem] = useState<ItemWithBids | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -324,6 +332,19 @@ export default function App() {
   const ws = useRef<WebSocket | null>(null);
 
   const t = translations.ar;
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    const body = window.document.body;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      body.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+      body.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     fetchItems();
@@ -521,21 +542,29 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen pb-20 bg-zinc-50" dir="rtl">
+    <div className={cn("min-h-screen pb-20 bg-zinc-50 dark:bg-zinc-950 transition-colors duration-300", theme)} dir="rtl">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-zinc-200 shadow-sm">
+      <header className="sticky top-0 z-40 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#1a3673] rounded-2xl flex items-center justify-center shadow-xl shadow-zinc-200 rotate-3">
+            <div className="w-12 h-12 bg-[#1a3673] rounded-2xl flex items-center justify-center shadow-xl shadow-zinc-200 dark:shadow-none rotate-3">
               <Ship className="text-[#eeb44f] w-7 h-7" />
             </div>
             <div>
-              <h1 className="font-display text-3xl font-bold tracking-tight text-zinc-900">{t.title}</h1>
-              <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest leading-none mt-1">Premium Auctions</p>
+              <h1 className="font-display text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">{t.title}</h1>
+              <p className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold uppercase tracking-widest leading-none mt-1">Premium Auctions</p>
             </div>
           </div>
           
           <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+              className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all text-zinc-600 dark:text-zinc-400"
+              title={theme === 'light' ? t.darkMode : t.lightMode}
+            >
+              {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+            </button>
+
             {adminToken ? (
               <div className="flex items-center gap-2">
                 <button 
@@ -608,16 +637,16 @@ export default function App() {
                 placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border-2 border-zinc-100 rounded-2xl py-4 pr-12 pl-4 focus:border-zinc-900 focus:ring-0 transition-all font-bold text-zinc-900 shadow-sm"
+                className="w-full bg-white dark:bg-zinc-900 border-2 border-zinc-100 dark:border-zinc-800 rounded-2xl py-4 pr-12 pl-4 focus:border-zinc-900 dark:focus:border-zinc-100 focus:ring-0 transition-all font-bold text-zinc-900 dark:text-zinc-100 shadow-sm"
               />
             </div>
 
-            <div className="flex bg-zinc-100 p-1.5 rounded-2xl w-full md:w-auto">
+            <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1.5 rounded-2xl w-full md:w-auto">
               <button
                 onClick={() => setStatusFilter('all')}
                 className={cn(
                   "flex-1 md:flex-none px-6 py-2.5 rounded-xl text-sm font-black transition-all",
-                  statusFilter === 'all' ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-400 hover:text-zinc-600"
+                  statusFilter === 'all' ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-sm" : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300"
                 )}
               >
                 {t.filterAll}
@@ -626,7 +655,7 @@ export default function App() {
                 onClick={() => setStatusFilter('active')}
                 className={cn(
                   "flex-1 md:flex-none px-6 py-2.5 rounded-xl text-sm font-black transition-all",
-                  statusFilter === 'active' ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-400 hover:text-zinc-600"
+                  statusFilter === 'active' ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-sm" : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300"
                 )}
               >
                 {t.filterActive}
@@ -635,7 +664,7 @@ export default function App() {
                 onClick={() => setStatusFilter('sold')}
                 className={cn(
                   "flex-1 md:flex-none px-6 py-2.5 rounded-xl text-sm font-black transition-all",
-                  statusFilter === 'sold' ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-400 hover:text-zinc-600"
+                  statusFilter === 'sold' ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-sm" : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300"
                 )}
               >
                 {t.filterSold}
@@ -647,20 +676,20 @@ export default function App() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 gap-6">
             <div className="relative">
-              <Loader2 className="w-12 h-12 animate-spin text-zinc-900" />
+              <Loader2 className="w-12 h-12 animate-spin text-zinc-900 dark:text-zinc-100" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-2 h-2 bg-zinc-900 rounded-full" />
+                <div className="w-2 h-2 bg-zinc-900 dark:bg-zinc-100 rounded-full" />
               </div>
             </div>
-            <p className="text-zinc-500 font-bold tracking-widest uppercase text-xs">{t.loading}</p>
+            <p className="text-zinc-500 dark:text-zinc-400 font-bold tracking-widest uppercase text-xs">{t.loading}</p>
           </div>
         ) : items.length === 0 ? (
           <div className="text-center py-32">
-            <div className="w-24 h-24 bg-white rounded-[2rem] shadow-2xl shadow-zinc-200 flex items-center justify-center mx-auto mb-8 border border-zinc-100">
-              <ShoppingCart className="text-zinc-200 w-12 h-12" />
+            <div className="w-24 h-24 bg-white dark:bg-zinc-900 rounded-[2rem] shadow-2xl shadow-zinc-200 dark:shadow-none flex items-center justify-center mx-auto mb-8 border border-zinc-100 dark:border-zinc-800">
+              <ShoppingCart className="text-zinc-200 dark:text-zinc-700 w-12 h-12" />
             </div>
-            <h2 className="text-3xl font-black mb-3 text-zinc-900">{t.noItems}</h2>
-            <p className="text-zinc-400 mb-10 max-w-md mx-auto font-medium">{t.beFirst}</p>
+            <h2 className="text-3xl font-black mb-3 text-zinc-900 dark:text-zinc-100">{t.noItems}</h2>
+            <p className="text-zinc-400 dark:text-zinc-500 mb-10 max-w-md mx-auto font-medium">{t.beFirst}</p>
             {adminToken && (
               <button 
                 onClick={() => setIsAddModalOpen(true)}
@@ -766,9 +795,9 @@ const ItemCard: React.FC<{
     <motion.div 
       layoutId={`item-${item.id}`}
       onClick={onClick}
-      className="group bg-white rounded-[2.5rem] border border-zinc-100 overflow-hidden cursor-pointer hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-700 flex flex-col"
+      className="group bg-white dark:bg-zinc-900 rounded-[2.5rem] border border-zinc-100 dark:border-zinc-800 overflow-hidden cursor-pointer hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-700 flex flex-col"
     >
-      <div className="aspect-[4/5] bg-zinc-50 relative overflow-hidden">
+      <div className="aspect-[4/5] bg-zinc-50 dark:bg-zinc-800 relative overflow-hidden">
         {item.images && item.images.length > 0 ? (
           <img 
             src={item.images[0]} 
@@ -796,14 +825,14 @@ const ItemCard: React.FC<{
         </div>
       </div>
       <div className="p-8 flex-1 flex flex-col">
-        <h3 className="font-display text-2xl font-bold leading-tight mb-3 group-hover:text-zinc-700 transition-colors">{item.title}</h3>
-        <p className="text-zinc-400 text-sm line-clamp-2 mb-8 flex-1 font-medium leading-relaxed">{item.description}</p>
-        <div className="flex items-end justify-between pt-6 border-t border-zinc-50">
+        <h3 className="font-display text-2xl font-bold leading-tight mb-3 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors text-zinc-900 dark:text-zinc-100">{item.title}</h3>
+        <p className="text-zinc-400 dark:text-zinc-500 text-sm line-clamp-2 mb-8 flex-1 font-medium leading-relaxed">{item.description}</p>
+        <div className="flex items-end justify-between pt-6 border-t border-zinc-50 dark:border-zinc-800">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.2em] font-black text-zinc-300 mb-2">{t.currentBid}</p>
-            <p className="text-2xl font-black text-zinc-900">{formatPrice(item.current_bid)}</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] font-black text-zinc-300 dark:text-zinc-600 mb-2">{t.currentBid}</p>
+            <p className="text-2xl font-black text-zinc-900 dark:text-zinc-100">{formatPrice(item.current_bid)}</p>
           </div>
-          <div className="w-14 h-14 rounded-[1.25rem] bg-zinc-50 flex items-center justify-center group-hover:bg-zinc-900 group-hover:text-white transition-all duration-500 group-hover:-rotate-12 group-hover:scale-110 shadow-sm">
+          <div className="w-14 h-14 rounded-[1.25rem] bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center group-hover:bg-zinc-900 dark:group-hover:bg-zinc-100 group-hover:text-white dark:group-hover:text-zinc-900 transition-all duration-500 group-hover:-rotate-12 group-hover:scale-110 shadow-sm">
             <ArrowRight className={cn("w-6 h-6 transition-transform", item.status === 'sold' && "rotate-45")} />
           </div>
         </div>
@@ -838,17 +867,17 @@ function ItemDetailModal({ item, t, isAdmin, formatPrice, onClose, onBid, onBuy,
       />
       <motion.div 
         layoutId={`item-${item.id}`}
-        className="relative w-full max-w-7xl bg-white rounded-[3rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row max-h-[95vh]"
+        className="relative w-full max-w-7xl bg-white dark:bg-zinc-900 rounded-[3rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row max-h-[95vh]"
       >
         <button 
           onClick={onClose}
-          className="absolute top-8 right-8 z-20 w-14 h-14 bg-white/90 backdrop-blur-xl rounded-full flex items-center justify-center hover:bg-white transition-all border border-zinc-100 shadow-2xl"
+          className="absolute top-8 right-8 z-20 w-14 h-14 bg-white/90 dark:bg-zinc-800/90 backdrop-blur-xl rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-zinc-700 transition-all border border-zinc-100 dark:border-zinc-800 shadow-2xl text-zinc-900 dark:text-zinc-100"
         >
           <X className="w-7 h-7" />
         </button>
 
         {/* Left: Gallery */}
-        <div className="w-full lg:w-3/5 bg-zinc-50 relative flex flex-col">
+        <div className="w-full lg:w-3/5 bg-zinc-50 dark:bg-zinc-950 relative flex flex-col">
           <div className="flex-1 relative overflow-hidden group">
             {item.images && item.images.length > 0 ? (
               <img 
@@ -882,7 +911,7 @@ function ItemDetailModal({ item, t, isAdmin, formatPrice, onClose, onBid, onBuy,
           </div>
           
           {item.images && item.images.length > 1 && (
-            <div className="p-6 flex gap-4 overflow-x-auto bg-white/30 backdrop-blur-xl border-t border-zinc-100 scrollbar-hide">
+            <div className="p-6 flex gap-4 overflow-x-auto bg-white/30 dark:bg-zinc-900/30 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-800 scrollbar-hide">
               {item.images.map((img, idx) => (
                 <button 
                   key={idx}
@@ -900,30 +929,30 @@ function ItemDetailModal({ item, t, isAdmin, formatPrice, onClose, onBid, onBuy,
         </div>
 
         {/* Right: Content */}
-        <div className="w-full lg:w-2/5 p-10 sm:p-14 flex flex-col overflow-y-auto bg-white">
+        <div className="w-full lg:w-2/5 p-10 sm:p-14 flex flex-col overflow-y-auto bg-white dark:bg-zinc-900">
           <div className="mb-10">
             <div className="flex items-center gap-4 mb-6">
               <span className={cn(
                 "px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-sm",
-                item.status === 'active' ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-zinc-100 text-zinc-400 border border-zinc-200"
+                item.status === 'active' ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800" : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-700"
               )}>
                 {item.status === 'active' ? t.active : t.sold}
               </span>
-              <span className="text-zinc-200">/</span>
-              <span className="text-zinc-400 text-xs font-bold tracking-widest uppercase">{new Date(item.created_at).toLocaleDateString('ar-IQ')}</span>
+              <span className="text-zinc-200 dark:text-zinc-800">/</span>
+              <span className="text-zinc-400 dark:text-zinc-500 text-xs font-bold tracking-widest uppercase">{new Date(item.created_at).toLocaleDateString('ar-IQ')}</span>
             </div>
-            <h2 className="text-5xl font-display font-bold mb-8 tracking-tight leading-[1.1] text-zinc-900">{item.title}</h2>
-            <p className="text-zinc-500 leading-relaxed text-xl font-medium">{item.description}</p>
+            <h2 className="text-5xl font-display font-bold mb-8 tracking-tight leading-[1.1] text-zinc-900 dark:text-zinc-100">{item.title}</h2>
+            <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed text-xl font-medium">{item.description}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-8 mb-12">
-            <div className="bg-zinc-50 p-8 rounded-[2rem] border border-zinc-100">
-              <p className="text-[10px] uppercase tracking-[0.2em] font-black text-zinc-300 mb-3">{t.startingPrice}</p>
-              <p className="text-2xl font-black text-zinc-900">{formatPrice(item.starting_price)}</p>
+            <div className="bg-zinc-50 dark:bg-zinc-800 p-8 rounded-[2rem] border border-zinc-100 dark:border-zinc-800">
+              <p className="text-[10px] uppercase tracking-[0.2em] font-black text-zinc-300 dark:text-zinc-600 mb-3">{t.startingPrice}</p>
+              <p className="text-2xl font-black text-zinc-900 dark:text-zinc-100">{formatPrice(item.starting_price)}</p>
             </div>
-            <div className="bg-zinc-900 p-8 rounded-[2rem] text-white shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -mr-10 -mt-10 blur-2xl" />
-              <p className="text-[10px] uppercase tracking-[0.2em] font-black text-zinc-400 mb-3 relative z-10">{t.currentBid}</p>
+            <div className="bg-zinc-900 dark:bg-zinc-100 p-8 rounded-[2rem] text-white dark:text-zinc-900 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 dark:bg-black/5 rounded-full -mr-10 -mt-10 blur-2xl" />
+              <p className="text-[10px] uppercase tracking-[0.2em] font-black text-zinc-400 dark:text-zinc-500 mb-3 relative z-10">{t.currentBid}</p>
               <p className="text-2xl font-black relative z-10">{formatPrice(item.current_bid)}</p>
             </div>
           </div>
@@ -1073,11 +1102,11 @@ function AdminLoginModal({ t, onClose, onLogin }: { t: any; onClose: () => void;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-zinc-900/90 backdrop-blur-xl" />
-      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-sm bg-white rounded-[2.5rem] p-10 shadow-2xl">
-        <h2 className="text-3xl font-display font-bold mb-8 text-center">{t.adminLogin}</h2>
+      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-sm bg-white dark:bg-zinc-900 rounded-[2.5rem] p-10 shadow-2xl">
+        <h2 className="text-3xl font-display font-bold mb-8 text-center text-zinc-900 dark:text-zinc-100">{t.adminLogin}</h2>
         <div className="space-y-6">
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-zinc-300">{t.username}</label>
+            <label className="text-xs font-black uppercase tracking-widest text-zinc-300 dark:text-zinc-600">{t.username}</label>
             <input 
               type="text" 
               className="input-field py-4 px-5 rounded-2xl" 
@@ -1087,7 +1116,7 @@ function AdminLoginModal({ t, onClose, onLogin }: { t: any; onClose: () => void;
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-zinc-300">{t.password}</label>
+            <label className="text-xs font-black uppercase tracking-widest text-zinc-300 dark:text-zinc-600">{t.password}</label>
             <input 
               type="password" 
               className="input-field py-4 px-5 rounded-2xl" 
@@ -1100,7 +1129,7 @@ function AdminLoginModal({ t, onClose, onLogin }: { t: any; onClose: () => void;
           <button 
             onClick={handleLogin}
             disabled={loading || !username || !password}
-            className="btn-primary w-full py-4 rounded-2xl font-black text-lg shadow-xl shadow-zinc-200 flex items-center justify-center gap-2"
+            className="btn-primary w-full py-4 rounded-2xl font-black text-lg shadow-xl shadow-zinc-200 dark:shadow-none flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <LogIn className="w-5 h-5" />}
             <span>{t.login}</span>
@@ -1124,11 +1153,11 @@ function EditItemModal({ t, item, onClose, onSave }: { t: any; item: Item; onClo
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-zinc-900/90 backdrop-blur-xl" />
-      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-lg bg-white rounded-[2.5rem] p-10 shadow-2xl max-h-[90vh] overflow-y-auto">
-        <h2 className="text-3xl font-display font-bold mb-8 text-center">{t.editItem}</h2>
+      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-lg bg-white dark:bg-zinc-900 rounded-[2.5rem] p-10 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <h2 className="text-3xl font-display font-bold mb-8 text-center text-zinc-900 dark:text-zinc-100">{t.editItem}</h2>
         <div className="space-y-6">
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-zinc-300">{t.itemTitle}</label>
+            <label className="text-xs font-black uppercase tracking-widest text-zinc-300 dark:text-zinc-600">{t.itemTitle}</label>
             <input 
               type="text" 
               className="input-field py-4 px-5 rounded-2xl" 
@@ -1137,7 +1166,7 @@ function EditItemModal({ t, item, onClose, onSave }: { t: any; item: Item; onClo
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-zinc-300">{t.description}</label>
+            <label className="text-xs font-black uppercase tracking-widest text-zinc-300 dark:text-zinc-600">{t.description}</label>
             <textarea 
               className="input-field py-4 px-5 rounded-2xl min-h-[100px]" 
               value={formData.description}
@@ -1145,7 +1174,7 @@ function EditItemModal({ t, item, onClose, onSave }: { t: any; item: Item; onClo
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-zinc-300">{t.sellerNotes}</label>
+            <label className="text-xs font-black uppercase tracking-widest text-zinc-300 dark:text-zinc-600">{t.sellerNotes}</label>
             <textarea 
               className="input-field py-4 px-5 rounded-2xl min-h-[80px]" 
               value={formData.seller_notes}
@@ -1154,7 +1183,7 @@ function EditItemModal({ t, item, onClose, onSave }: { t: any; item: Item; onClo
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-xs font-black uppercase tracking-widest text-zinc-300">{t.startingPrice}</label>
+              <label className="text-xs font-black uppercase tracking-widest text-zinc-300 dark:text-zinc-600">{t.startingPrice}</label>
               <input 
                 type="number" 
                 className="input-field py-4 px-5 rounded-2xl" 
@@ -1163,7 +1192,7 @@ function EditItemModal({ t, item, onClose, onSave }: { t: any; item: Item; onClo
               />
             </div>
             <div className="space-y-2">
-              <label className="text-xs font-black uppercase tracking-widest text-zinc-300">{t.currentBid}</label>
+              <label className="text-xs font-black uppercase tracking-widest text-zinc-300 dark:text-zinc-600">{t.currentBid}</label>
               <input 
                 type="number" 
                 className="input-field py-4 px-5 rounded-2xl" 
@@ -1173,7 +1202,7 @@ function EditItemModal({ t, item, onClose, onSave }: { t: any; item: Item; onClo
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-zinc-300">الحالة</label>
+            <label className="text-xs font-black uppercase tracking-widest text-zinc-300 dark:text-zinc-600">الحالة</label>
             <select 
               className="input-field py-4 px-5 rounded-2xl appearance-none"
               value={formData.status}
@@ -1261,11 +1290,11 @@ function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; 
         initial={{ scale: 0.9, opacity: 0, y: 60 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 60 }}
-        className="relative w-full max-w-3xl bg-white rounded-[3rem] overflow-hidden shadow-2xl max-h-[95vh] flex flex-col"
+        className="relative w-full max-w-3xl bg-white dark:bg-zinc-900 rounded-[3rem] overflow-hidden shadow-2xl max-h-[95vh] flex flex-col"
       >
-        <div className="p-10 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/30">
-          <h2 className="text-3xl font-display font-bold tracking-tight">{t.listItem}</h2>
-          <button onClick={onClose} className="w-12 h-12 rounded-full bg-white border border-zinc-200 flex items-center justify-center text-zinc-300 hover:text-zinc-900 transition-all shadow-sm">
+        <div className="p-10 border-b border-zinc-100 dark:border-zinc-800 flex items-center justify-between bg-zinc-50/30 dark:bg-zinc-800/30">
+          <h2 className="text-3xl font-display font-bold tracking-tight text-zinc-900 dark:text-zinc-100">{t.listItem}</h2>
+          <button onClick={onClose} className="w-12 h-12 rounded-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all shadow-sm">
             <X className="w-7 h-7" />
           </button>
         </div>
@@ -1273,18 +1302,18 @@ function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; 
         <form onSubmit={handleSubmit} className="p-10 space-y-10 overflow-y-auto">
           <div className="space-y-8">
             <div className="space-y-4">
-              <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">{t.uploadImages}</label>
+              <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300 dark:text-zinc-600">{t.uploadImages}</label>
               <div 
                 onClick={() => fileInputRef.current?.click()}
                 className={cn(
-                  "min-h-[250px] bg-zinc-50 border-4 border-dashed border-zinc-100 rounded-[2.5rem] flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-100 hover:border-zinc-200 transition-all p-10 group",
-                  previews.length > 0 && "border-solid bg-white"
+                  "min-h-[250px] bg-zinc-50 dark:bg-zinc-950 border-4 border-dashed border-zinc-100 dark:border-zinc-800 rounded-[2.5rem] flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-200 dark:hover:border-zinc-700 transition-all p-10 group",
+                  previews.length > 0 && "border-solid bg-white dark:bg-zinc-900"
                 )}
               >
                 {previews.length > 0 ? (
                   <div className="grid grid-cols-2 sm:grid-cols-5 gap-5 w-full">
                     {previews.map((p, i) => (
-                      <div key={i} className="aspect-square rounded-2xl overflow-hidden border-2 border-zinc-50 shadow-xl relative group/img">
+                      <div key={i} className="aspect-square rounded-2xl overflow-hidden border-2 border-zinc-50 dark:border-zinc-800 shadow-xl relative group/img">
                         <img src={p} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
                           <Trash2 className="text-white w-6 h-6" />
@@ -1292,18 +1321,18 @@ function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; 
                       </div>
                     ))}
                     {previews.length < 5 && (
-                      <div className="aspect-square rounded-2xl border-4 border-dashed border-zinc-100 flex items-center justify-center text-zinc-200 group-hover:text-zinc-400 transition-colors">
+                      <div className="aspect-square rounded-2xl border-4 border-dashed border-zinc-100 dark:border-zinc-800 flex items-center justify-center text-zinc-200 dark:text-zinc-700 group-hover:text-zinc-400 dark:group-hover:text-zinc-500 transition-colors">
                         <Plus className="w-8 h-8" />
                       </div>
                     )}
                   </div>
                 ) : (
                   <>
-                    <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shadow-xl mb-6 group-hover:scale-110 transition-transform duration-500">
-                      <ImageIcon className="w-10 h-10 text-zinc-200" />
+                    <div className="w-20 h-20 bg-white dark:bg-zinc-800 rounded-3xl flex items-center justify-center shadow-xl mb-6 group-hover:scale-110 transition-transform duration-500">
+                      <ImageIcon className="w-10 h-10 text-zinc-200 dark:text-zinc-700" />
                     </div>
-                    <p className="text-lg font-bold text-zinc-600">{t.uploadImages}</p>
-                    <p className="text-xs text-zinc-300 mt-2 font-black uppercase tracking-widest">{t.imageLimit}</p>
+                    <p className="text-lg font-bold text-zinc-600 dark:text-zinc-400">{t.uploadImages}</p>
+                    <p className="text-xs text-zinc-300 dark:text-zinc-600 mt-2 font-black uppercase tracking-widest">{t.imageLimit}</p>
                   </>
                 )}
                 <input 
@@ -1319,35 +1348,35 @@ function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; 
             </div>
 
             <div className="space-y-3">
-              <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">{t.itemTitle}</label>
-              <input name="title" type="text" placeholder={t.whatSelling} className="input-field py-5 px-6 text-lg rounded-2xl bg-zinc-50 border-transparent focus:bg-white" required />
+              <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300 dark:text-zinc-600">{t.itemTitle}</label>
+              <input name="title" type="text" placeholder={t.whatSelling} className="input-field py-5 px-6 text-lg rounded-2xl bg-zinc-50 dark:bg-zinc-950 border-transparent focus:bg-white dark:focus:bg-zinc-900" required />
             </div>
 
             <div className="space-y-3">
-              <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">{t.description}</label>
-              <textarea name="description" placeholder={t.describeItem} className="input-field min-h-[150px] py-5 px-6 text-lg rounded-2xl bg-zinc-50 border-transparent focus:bg-white" required />
+              <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300 dark:text-zinc-600">{t.description}</label>
+              <textarea name="description" placeholder={t.describeItem} className="input-field min-h-[150px] py-5 px-6 text-lg rounded-2xl bg-zinc-50 dark:bg-zinc-950 border-transparent focus:bg-white dark:focus:bg-zinc-900" required />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">{t.startingPrice} ({t.iqd})</label>
+                <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300 dark:text-zinc-600">{t.startingPrice} ({t.iqd})</label>
                 <div className="relative">
-                  <input name="starting_price" type="number" placeholder="0" className="input-field py-5 px-6 text-lg rounded-2xl bg-zinc-50 border-transparent focus:bg-white" required />
-                  <span className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-300 font-black text-sm">{t.iqd}</span>
+                  <input name="starting_price" type="number" placeholder="0" className="input-field py-5 px-6 text-lg rounded-2xl bg-zinc-50 dark:bg-zinc-950 border-transparent focus:bg-white dark:focus:bg-zinc-900" required />
+                  <span className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-300 dark:text-zinc-600 font-black text-sm">{t.iqd}</span>
                 </div>
               </div>
               <div className="space-y-3">
-                <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">{t.whatsapp}</label>
+                <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300 dark:text-zinc-600">{t.whatsapp}</label>
                 <div className="relative">
-                  <MessageCircle className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-300 w-6 h-6" />
-                  <input name="seller_whatsapp" type="text" placeholder="964..." className="input-field py-5 pl-14 pr-6 text-lg rounded-2xl bg-zinc-50 border-transparent focus:bg-white" required />
+                  <MessageCircle className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-300 dark:text-zinc-600 w-6 h-6" />
+                  <input name="seller_whatsapp" type="text" placeholder="964..." className="input-field py-5 pl-14 pr-6 text-lg rounded-2xl bg-zinc-50 dark:bg-zinc-950 border-transparent focus:bg-white dark:focus:bg-zinc-900" required />
                 </div>
               </div>
             </div>
 
             <div className="space-y-3">
-              <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">{t.sellerNotes}</label>
-              <textarea name="seller_notes" placeholder="ملاحظات إضافية للبحث أو الإدارة..." className="input-field min-h-[100px] py-5 px-6 text-lg rounded-2xl bg-zinc-50 border-transparent focus:bg-white" />
+              <label className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300 dark:text-zinc-600">{t.sellerNotes}</label>
+              <textarea name="seller_notes" placeholder="ملاحظات إضافية للبحث أو الإدارة..." className="input-field min-h-[100px] py-5 px-6 text-lg rounded-2xl bg-zinc-50 dark:bg-zinc-950 border-transparent focus:bg-white dark:focus:bg-zinc-900" />
             </div>
           </div>
 
