@@ -190,19 +190,29 @@ app.get("/api/items/:id", (req, res) => {
 });
 
 app.post("/api/items", upload.array("images", 5), (req, res) => {
-  const { title, description, starting_price, seller_whatsapp, seller_notes } = req.body;
-  const files = req.files as Express.Multer.File[];
-  const images = files ? files.map(f => `/uploads/${f.filename}`) : [];
+  try {
+    const { title, description, starting_price, seller_whatsapp, seller_notes } = req.body;
+    const files = req.files as Express.Multer.File[];
+    const images = files ? files.map(f => `/uploads/${f.filename}`) : [];
 
-  const result = db.prepare(`
-    INSERT INTO items (title, description, starting_price, current_bid, images, seller_whatsapp, seller_notes)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `).run(title, description, starting_price, starting_price, JSON.stringify(images), seller_whatsapp, seller_notes);
+    const price = parseFloat(starting_price);
+    if (isNaN(price)) {
+      return res.status(400).json({ error: "السعر الابتدائي غير صالح" });
+    }
 
-  const newItem: any = db.prepare("SELECT * FROM items WHERE id = ?").get(result.lastInsertRowid);
-  newItem.images = JSON.parse(newItem.images || "[]");
-  broadcast({ type: "ITEM_ADDED", item: newItem });
-  res.json(newItem);
+    const result = db.prepare(`
+      INSERT INTO items (title, description, starting_price, current_bid, images, seller_whatsapp, seller_notes)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(title, description, price, price, JSON.stringify(images), seller_whatsapp, seller_notes);
+
+    const newItem: any = db.prepare("SELECT * FROM items WHERE id = ?").get(result.lastInsertRowid);
+    newItem.images = JSON.parse(newItem.images || "[]");
+    broadcast({ type: "ITEM_ADDED", item: newItem });
+    res.json(newItem);
+  } catch (error) {
+    console.error("Failed to create item:", error);
+    res.status(500).json({ error: "حدث خطأ أثناء إضافة القطعة" });
+  }
 });
 
 app.post("/api/items/:id/bid", (req, res) => {

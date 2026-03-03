@@ -701,11 +701,11 @@ export default function App() {
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="text-center py-32">
-            <div className="w-24 h-24 bg-white rounded-[2rem] shadow-2xl shadow-zinc-200 flex items-center justify-center mx-auto mb-8 border border-zinc-100">
-              <Search className="text-zinc-200 w-12 h-12" />
+            <div className="w-24 h-24 bg-white dark:bg-zinc-900 rounded-[2rem] shadow-2xl shadow-zinc-200 dark:shadow-none flex items-center justify-center mx-auto mb-8 border border-zinc-100 dark:border-zinc-800">
+              <Search className="text-zinc-200 dark:text-zinc-700 w-12 h-12" />
             </div>
-            <h2 className="text-3xl font-black mb-3 text-zinc-900">لا توجد نتائج</h2>
-            <p className="text-zinc-400 mb-10 max-w-md mx-auto font-medium">جرب البحث بكلمات أخرى أو تغيير الفلتر</p>
+            <h2 className="text-3xl font-black mb-3 text-zinc-900 dark:text-zinc-100">لا توجد نتائج</h2>
+            <p className="text-zinc-400 dark:text-zinc-500 mb-10 max-w-md mx-auto font-medium">جرب البحث بكلمات أخرى أو تغيير الفلتر</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
@@ -896,13 +896,13 @@ function ItemDetailModal({ item, t, isAdmin, formatPrice, onClose, onBid, onBuy,
               <>
                 <button 
                   onClick={() => setActiveImage(prev => (prev > 0 ? prev - 1 : item.images.length - 1))}
-                  className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-zinc-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-xl"
+                  className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 dark:bg-zinc-800/90 backdrop-blur border border-zinc-100 dark:border-zinc-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-xl text-zinc-900 dark:text-zinc-100"
                 >
                   <ChevronLeft className="w-7 h-7" />
                 </button>
                 <button 
                   onClick={() => setActiveImage(prev => (prev < item.images.length - 1 ? prev + 1 : 0))}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-zinc-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-xl"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 dark:bg-zinc-800/90 backdrop-blur border border-zinc-100 dark:border-zinc-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-xl text-zinc-900 dark:text-zinc-100"
                 >
                   <ChevronRight className="w-7 h-7" />
                 </button>
@@ -961,19 +961,19 @@ function ItemDetailModal({ item, t, isAdmin, formatPrice, onClose, onBid, onBuy,
             <div className="space-y-10">
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-black text-xs uppercase tracking-[0.2em] text-zinc-300">{t.placeBid}</h3>
+                  <h3 className="font-black text-xs uppercase tracking-[0.2em] text-zinc-300 dark:text-zinc-600">{t.placeBid}</h3>
                   {isAdmin && (
                     <div className="flex items-center gap-4">
                       <button 
                         onClick={onEdit}
-                        className="text-zinc-600 hover:text-zinc-900 flex items-center gap-2 text-xs font-bold transition-colors"
+                        className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 flex items-center gap-2 text-xs font-bold transition-colors"
                       >
                         <Edit3 className="w-4 h-4" />
                         <span>{t.editItem}</span>
                       </button>
                       <button 
                         onClick={onDelete}
-                        className="text-red-500 hover:text-red-700 flex items-center gap-2 text-xs font-bold transition-colors"
+                        className="text-red-500 hover:text-red-700 dark:hover:text-red-400 flex items-center gap-2 text-xs font-bold transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                         <span>{t.deleteItem}</span>
@@ -986,7 +986,7 @@ function ItemDetailModal({ item, t, isAdmin, formatPrice, onClose, onBid, onBuy,
                     <input 
                       type="text" 
                       placeholder={t.yourName}
-                      className="input-field py-5 px-6 text-lg rounded-2xl bg-zinc-50 border-transparent focus:bg-white"
+                      className="input-field py-5 px-6 text-lg rounded-2xl bg-zinc-50 dark:bg-zinc-800 border-transparent focus:bg-white dark:focus:bg-zinc-950"
                       value={bidderName}
                       onChange={(e) => setBidderName(e.target.value)}
                     />
@@ -994,12 +994,12 @@ function ItemDetailModal({ item, t, isAdmin, formatPrice, onClose, onBid, onBuy,
                   <div className="relative">
                     <input 
                       type="number" 
-                      className="input-field py-5 px-6 text-lg rounded-2xl bg-zinc-50 border-transparent focus:bg-white"
+                      className="input-field py-5 px-6 text-lg rounded-2xl bg-zinc-50 dark:bg-zinc-800 border-transparent focus:bg-white dark:focus:bg-zinc-950"
                       value={bidAmount}
                       onChange={(e) => setBidAmount(Number(e.target.value))}
                       min={item.current_bid + 1}
                     />
-                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-400 font-black text-sm">{t.iqd}</span>
+                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-zinc-600 font-black text-sm">{t.iqd}</span>
                   </div>
                 </div>
                 <button 
@@ -1228,16 +1228,24 @@ function EditItemModal({ t, item, onClose, onSave }: { t: any; item: Item; onClo
 function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; onSuccess: () => void }) {
   const [loading, setLoading] = useState(false);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
     
-    if (previews.length === 0) {
+    if (selectedFiles.length === 0) {
       alert(t.errorImages);
       return;
     }
+
+    const formData = new FormData(e.currentTarget);
+    // Remove the default 'images' from formData if it's there (it shouldn't be if we don't use the input directly, but just in case)
+    formData.delete('images');
+    // Append our selected files
+    selectedFiles.forEach(file => {
+      formData.append('images', file);
+    });
 
     setLoading(true);
     try {
@@ -1245,11 +1253,16 @@ function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; 
         method: 'POST',
         body: formData,
       });
+      
       if (res.ok) {
         onSuccess();
+      } else {
+        const errorData = await res.json();
+        alert(errorData.error || "حدث خطأ أثناء إضافة القطعة");
       }
     } catch (err) {
       console.error('Failed to add item', err);
+      alert("فشل الاتصال بالخادم. يرجى المحاولة مرة أخرى.");
     } finally {
       setLoading(false);
     }
@@ -1257,24 +1270,42 @@ function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []) as File[];
-    if (files.length > 5) {
-      alert("Max 5 images allowed");
+    
+    if (selectedFiles.length + files.length > 5) {
+      alert("الحد الأقصى هو 5 صور فقط");
       return;
     }
 
+    const newFiles = [...selectedFiles, ...files];
+    setSelectedFiles(newFiles);
+
+    // Update previews
     const newPreviews: string[] = [];
-    files.forEach(file => {
+    let processed = 0;
+    
+    newFiles.forEach((file, index) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
-          newPreviews.push(reader.result);
-          if (newPreviews.length === files.length) {
-            setPreviews(newPreviews);
-          }
+        newPreviews[index] = reader.result as string;
+        processed++;
+        if (processed === newFiles.length) {
+          setPreviews(newPreviews);
         }
       };
       reader.readAsDataURL(file);
     });
+
+    // Reset input so the same file can be selected again if removed
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const removeImage = (index: number) => {
+    const newFiles = selectedFiles.filter((_, i) => i !== index);
+    const newPreviews = previews.filter((_, i) => i !== index);
+    setSelectedFiles(newFiles);
+    setPreviews(newPreviews);
   };
 
   return (
@@ -1315,7 +1346,13 @@ function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; 
                     {previews.map((p, i) => (
                       <div key={i} className="aspect-square rounded-2xl overflow-hidden border-2 border-zinc-50 dark:border-zinc-800 shadow-xl relative group/img">
                         <img src={p} className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                        <div 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeImage(i);
+                          }}
+                          className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                        >
                           <Trash2 className="text-white w-6 h-6" />
                         </div>
                       </div>
@@ -1383,9 +1420,13 @@ function AddItemModal({ t, onClose, onSuccess }: { t: any; onClose: () => void; 
           <button 
             type="submit" 
             disabled={loading}
-            className="btn-primary w-full py-6 rounded-2xl text-xl font-black flex items-center justify-center gap-4 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.15)] hover:scale-[1.01] active:scale-[0.99] transition-all"
+            className="btn-primary w-full py-6 rounded-2xl text-xl font-black flex items-center justify-center gap-4 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.15)] hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? <Loader2 className="w-7 h-7 animate-spin" /> : <Plus className="w-7 h-7" />}
+            {loading ? (
+              <Loader2 className="w-7 h-7 animate-spin" />
+            ) : (
+              <Plus className="w-7 h-7" />
+            )}
             <span>{t.listNow}</span>
           </button>
         </form>
