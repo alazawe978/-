@@ -10,6 +10,11 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
+    "dependencies": 
+{
+  "@netlify/neon": "^0.1.0",
+  ...
+  }
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
