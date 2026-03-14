@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>لوحة تحكم عالم الباخره</title>
+</head>
+<body>
+    <h2>إضافة منتج جديد</h2>
+    <input type="text" id="name" placeholder="اسم المنتج"><br><br>
+    <input type="text" id="price" placeholder="السعر"><br><br>
+    <input type="text" id="img" placeholder="رابط صورة المنتج"><br><br>
+    <button onclick="saveProduct()">حفظ المنتج</button>
+
+    <script>
+        async function saveProduct() {
+            const data = {
+                name: document.getElementById('name').value,
+                price: document.getElementById('price').value,
+                image_url: document.getElementById('img').value
+            };
+
+            const response = await fetch('/.netlify/functions/add_product', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
+            
+            alert(await response.text());
+        }
+    </script>
+</body>
+</html>
